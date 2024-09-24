@@ -16,7 +16,7 @@ class Suggestion(Base):
     updated_id = Column(Integer)
     created_at = Column(Timestamp)
     updated_at = Column(Timestamp)
-    
+
     suggestionCategory = relationship("suggestionCategory", back_populates="user")
     suggestionComment = relationship("suggestionComment", back_populates="user")
     suggestionFavorite = relationship("suggestionFavorite", back_populates="user")
