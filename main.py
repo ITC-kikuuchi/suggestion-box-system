@@ -1,11 +1,19 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 
 import logging
+
+from utils.ExceptionHandler import exception_handler
 
 # ロギングの設定
 logging.basicConfig(
     filename="app.log", level=logging.DEBUG, format="%(asctime)s %(message)s"
 )
+
+
+# グローバル例外ハンドラー
+async def global_exception_handler(request: Request, exc: Exception):
+    return exception_handler(exc)
+
 
 from routers import Auth, Suggestion, Category, Status, Comment
 
