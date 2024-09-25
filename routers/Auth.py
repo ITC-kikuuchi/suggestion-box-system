@@ -41,7 +41,7 @@ async def login(formData: UserSchema.LoginData, db: Session = Depends(get_db)):
         # 入力された情報に紐づくユーザデータの取得
         user = UserCrud.getLoginUser(
             db,
-            mail=formData.username,
+            mail_address=formData.mail_address,
             password=hashlib.sha256(formData.password.encode("utf-8")).hexdigest(),
         )
         if not user:
