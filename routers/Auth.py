@@ -38,8 +38,23 @@ def createTokens(user):
 
 # ログインAPI
 @router.post("/login")
-async def login():
-    pass
+async def login(
+    formData: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
+):
+    try:
+        # 入力された情報に紐づくユーザデータの取得
+        user = UserCrud.getLoginUser(
+            db,
+            mail=formData.username,
+            password=hashlib.sha256(formData.password.encode("utf-8")).hexdigest(),
+        )
+        if not user:
+            # ユーザデータが存在しない場合
+            raise UnauthorizedException
+    except Exception as e:
+        return exception_handler(e)
+    # トークン生成し返却
+    return createTokens(user)
 
 
 # ログイン情報取得API
