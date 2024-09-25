@@ -11,6 +11,7 @@ from utils.ExceptionHandler import exception_handler
 import os
 import hashlib
 import cruds.User as UserCrud
+import schemas.User as UserSchema
 
 router = APIRouter()
 
@@ -35,9 +36,7 @@ def createTokens(user):
 
 # ログインAPI
 @router.post("/login")
-async def login(
-    formData: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
-):
+async def login(formData: UserSchema.LoginData, db: Session = Depends(get_db)):
     try:
         # 入力された情報に紐づくユーザデータの取得
         user = UserCrud.getLoginUser(
