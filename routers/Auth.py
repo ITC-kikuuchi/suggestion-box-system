@@ -14,9 +14,6 @@ import cruds.User as UserCrud
 
 router = APIRouter()
 
-# OAuth2PasswordBearerを使用してトークン取得用エンドポイントを設定
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
 
 # トークン生成処理
 def createTokens(user):
