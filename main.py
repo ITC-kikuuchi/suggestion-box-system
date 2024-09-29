@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 
 import logging
+import os
 
 from utils.ExceptionHandler import exception_handler
 
@@ -18,6 +20,15 @@ async def global_exception_handler(request: Request, exc: Exception):
 from routers import Auth, Suggestion, Category, Status, Comment
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[os.environ["FRONTEND_URL"]],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(Auth.router)
 app.include_router(Suggestion.router)
 app.include_router(Category.router)
