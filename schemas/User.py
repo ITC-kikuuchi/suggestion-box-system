@@ -1,4 +1,5 @@
-from pydantic import validator
+from typing import Optional
+from pydantic import validator, BaseModel
 from utils.CustomBaseModel import CustomBaseModel
 
 
@@ -15,3 +16,11 @@ class LoginData(CustomBaseModel):
         if not value:
             raise ValueError(error_messages[field.name])
         return value
+
+
+class LoginUser(BaseModel):
+    id: int
+    unknown: Optional[str]
+
+    class Config:
+        orm_mode = True
