@@ -35,9 +35,7 @@ def createTokens(user):
 
 # リクエストヘッダーからトークンを取得
 def getBearerToken(authorization: str = Header(None)):
-    if not authorization:
-        raise UnauthorizedException
-    if not authorization.startswith("Bearer "):
+    if not authorization or not authorization.startswith("Bearer "):
         raise UnauthorizedException
     return authorization.split(" ")[1]
 
