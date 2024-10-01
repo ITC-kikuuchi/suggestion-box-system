@@ -6,6 +6,8 @@ import os
 
 from utils.ExceptionHandler import exception_handler
 
+app = FastAPI()
+
 # ロギングの設定
 logging.basicConfig(
     filename="app.log", level=logging.DEBUG, format="%(asctime)s %(message)s"
@@ -13,13 +15,12 @@ logging.basicConfig(
 
 
 # グローバル例外ハンドラー
+@app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     return exception_handler(exc)
 
 
 from routers import Auth, Suggestion, Category, Status, Comment
-
-app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
