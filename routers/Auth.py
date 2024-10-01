@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Header
 from sqlalchemy.orm import Session
 from database import get_db
 from datetime import datetime, timedelta
@@ -31,6 +31,15 @@ def createTokens(user):
         "unknown": user.unknown,
         "access_token": accessToken,
     }
+
+
+# リクエストヘッダーからトークンを取得
+def getBearerToken(authorization: str = Header(None)):
+    if not authorization:
+        raise UnauthorizedException
+    if not authorization.startswith("Bearer "):
+        raise UnauthorizedException
+    return authorization.split(" ")[1]
 
 
 # ログインAPI
