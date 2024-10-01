@@ -78,10 +78,10 @@ async def login(formData: UserSchema.LoginData, db: Session = Depends(get_db)):
     return createTokens(user)
 
 
-# ログイン情報取得API
-@router.get("/me")
-async def me():
-    pass
+# ログインユーザ情報取得API
+@router.get("/me", response_model=UserSchema.LoginUser)
+async def me(loginUser: UserSchema.LoginUser = Depends(getCurrentUser)):
+    return loginUser
 
 
 # ログアウトAPI
