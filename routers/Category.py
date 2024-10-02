@@ -14,7 +14,7 @@ router = APIRouter()
 
 
 # カテゴリ一覧取得API
-@router.get("/categories")
+@router.get("/categories", response_model=CategorySchema.CategoryList)
 async def getCategories(
     loginUser: dict = Depends(getCurrentUser), db: Session = Depends(get_db)
 ):

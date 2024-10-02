@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 class Category(BaseModel):
     id: int
-    category: str
+    category: Optional[str]
     count: int
 
 
