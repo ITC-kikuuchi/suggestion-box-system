@@ -1,12 +1,52 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from database import get_db
+
+
+from utils.ExceptionHandler import exception_handler
+from utils.CheckToken import getCurrentUser
+
+
+import schemas.Suggestion as SuggestionSchema
+import cruds.Suggestion as SuggestionCrud
 
 router = APIRouter()
 
 
 # 意見一覧取得API
-@router.get("/suggestions")
-async def getSuggestions():
-    pass
+@router.get("/suggestions", response_model=SuggestionSchema.SuggestionList)
+async def getSuggestions(
+    loginUser: dict = Depends(getCurrentUser), db: Session = Depends(get_db)
+):
+    formattedSuggestions = []
+    try:
+        # 意見一覧取得
+        suggestions = SuggestionCrud.getSuggestions(db)
+        for suggestion in suggestions:
+            categoryList = []
+            for category in suggestion.suggestionCategory:
+                categoryList.append(
+                    {
+                        "category_id": category.category.id,
+                        "category": category.category.category,
+                    }
+                )
+
+            formattedSuggestion = SuggestionSchema.Suggestion(
+                id=suggestion.id,
+                unknown="匿名さん",
+                title=suggestion.title,
+                created_at=suggestion.created_at.strftime("%Y年%m月%d日"),
+                status_id=suggestion.status_id,
+                category_list=categoryList,
+            )
+            formattedSuggestions.append(formattedSuggestion)
+
+        # レスポンス作成
+        response = SuggestionSchema.SuggestionList(suggestion_list=formattedSuggestions)
+    except Exception as e:
+        return exception_handler(e)
+    return response
 
 
 # 意見登録API
