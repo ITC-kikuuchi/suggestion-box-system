@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.dialects.mysql import TIMESTAMP as Timestamp
+from sqlalchemy.orm import relationship
 
 from database import Base
 
@@ -13,3 +14,5 @@ class Status(Base):
     updated_id = Column(Integer)
     created_at = Column(Timestamp)
     updated_at = Column(Timestamp)
+
+    suggestion = relationship("Suggestion", back_populates="status")
