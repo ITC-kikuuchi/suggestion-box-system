@@ -21,3 +21,4 @@ class Suggestion(Base):
     suggestionCategory = relationship("SuggestionCategory", back_populates="suggestion")
     suggestionComment = relationship("SuggestionComment", back_populates="suggestion")
     suggestionFavorite = relationship("SuggestionFavorite", back_populates="suggestion")
+    status = relationship("Status", back_populates="suggestion")
