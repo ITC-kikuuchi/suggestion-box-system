@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.dialects.mysql import TIMESTAMP as Timestamp
 from sqlalchemy.orm import relationship
 
@@ -16,5 +16,5 @@ class SuggestionCategory(Base):
     created_at = Column(Timestamp)
     updated_at = Column(Timestamp)
 
-    suggestion = relationship("suggestion", back_populates="suggestionCategory")
-    category = relationship("category", back_populates="suggestionCategory")
+    suggestion = relationship("Suggestion", back_populates="suggestionCategory")
+    category = relationship("Category", back_populates="suggestionCategory")
