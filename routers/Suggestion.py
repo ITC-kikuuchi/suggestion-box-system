@@ -23,7 +23,6 @@ async def getSuggestions(
         # 意見一覧取得
         suggestions = SuggestionCrud.getSuggestions(db)
         for suggestion in suggestions:
-
             categoryList = []
             for category in suggestion.suggestionCategory:
                 categoryList.append(
