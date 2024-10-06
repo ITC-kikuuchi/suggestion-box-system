@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session, joinedload
+from sqlalchemy import desc
 
 from models.Suggestion import Suggestion
 from models.SuggestionCategory import SuggestionCategory
@@ -13,5 +14,6 @@ def getSuggestions(db: Session):
                 SuggestionCategory.category
             )
         )
+        .order_by(desc(Suggestion.created_at))
         .all()
     )
