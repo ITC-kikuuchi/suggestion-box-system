@@ -6,6 +6,8 @@ from database import get_db
 from utils.ExceptionHandler import exception_handler
 from utils.CheckToken import getCurrentUser
 
+from constants import UNKNOWN, DATE_FORMAT_YMD
+
 
 import schemas.Suggestion as SuggestionSchema
 import cruds.Suggestion as SuggestionCrud
@@ -34,9 +36,9 @@ async def getSuggestions(
 
             formattedSuggestion = SuggestionSchema.Suggestion(
                 id=suggestion.id,
-                unknown="匿名さん",
+                unknown=UNKNOWN,
                 title=suggestion.title,
-                created_at=suggestion.created_at.strftime("%Y年%m月%d日"),
+                created_at=suggestion.created_at.strftime(DATE_FORMAT_YMD),
                 status_id=suggestion.status_id,
                 category_list=categoryList,
             )
