@@ -17,3 +17,12 @@ def getSuggestions(db: Session):
         .order_by(desc(Suggestion.created_at))
         .all()
     )
+
+
+# 意見登録
+def createSuggestion(db: Session, suggestion):
+    newSuggestion = Suggestion(**suggestion)
+    db.add(newSuggestion)
+    db.commit()
+    db.refresh(newSuggestion)
+    return newSuggestion.id
