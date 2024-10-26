@@ -21,3 +21,8 @@ class SuggestionList(BaseModel):
 
     class Config:
         orm_mode = True
+
+class createSuggestion(BaseModel):
+    title: Optional[str]
+    contents: Optional[str]
+    category_list: List[int]

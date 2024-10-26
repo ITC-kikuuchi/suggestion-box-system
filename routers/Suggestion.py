@@ -6,11 +6,12 @@ from database import get_db
 from utils.ExceptionHandler import exception_handler
 from utils.CheckToken import getCurrentUser
 
-from constants import UNKNOWN, DATE_FORMAT_YMD
+from constants import UNKNOWN, DATE_FORMAT_YMD, STATUS_UNRESOLVED, UNKNOWN_CREATED_ID
 
 
 import schemas.Suggestion as SuggestionSchema
 import cruds.Suggestion as SuggestionCrud
+import cruds.SuggestionCategory as SuggestionCategory
 
 router = APIRouter()
 
@@ -53,8 +54,29 @@ async def getSuggestions(
 
 # 意見登録API
 @router.post("/suggestions")
-async def createSuggestion():
-    pass
+async def createSuggestion(
+    item: SuggestionSchema.createSuggestion,
+    loginUser: dict = Depends(getCurrentUser),
+    db: Session = Depends(get_db),
+):
+    try:
+        suggestion = {
+            "title": item.title,
+            "contents": item.contents,
+            "status_id": STATUS_UNRESOLVED,
+            "created_id": UNKNOWN_CREATED_ID,
+        }
+        suggestionId = SuggestionCrud.createSuggestion(db, suggestion)
+
+        for categoryId in item.category_list:
+            suggestionCategory = {
+                "suggestion_id": suggestionId,
+                "category_id": categoryId,
+            }
+            SuggestionCategory.createSuggestionCategory(db, suggestionCategory)
+
+    except Exception as e:
+        return exception_handler(e)
 
 
 # 意見詳細取得API
