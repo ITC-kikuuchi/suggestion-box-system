@@ -6,11 +6,12 @@ from database import get_db
 from utils.ExceptionHandler import exception_handler
 from utils.CheckToken import getCurrentUser
 
-from constants import UNKNOWN, DATE_FORMAT_YMD
+from constants import UNKNOWN, DATE_FORMAT_YMD, STATUS_UNRESOLVED, UNKNOWN_CREATED_ID
 
 
 import schemas.Suggestion as SuggestionSchema
 import cruds.Suggestion as SuggestionCrud
+import cruds.SuggestionCategory as SuggestionCategory
 
 router = APIRouter()
 
