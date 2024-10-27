@@ -3,6 +3,7 @@ from sqlalchemy import desc
 
 from models.Suggestion import Suggestion
 from models.SuggestionCategory import SuggestionCategory
+from models.SuggestionComment import SuggestionComment
 
 
 # 意見一覧取得
