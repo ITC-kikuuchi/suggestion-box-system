@@ -80,9 +80,11 @@ async def createSuggestion(
 
 
 # 意見詳細取得API
-@router.get("/suggestions/{suggestion_id}")
-async def getSuggestionDetail():
-    pass
+@router.get("/suggestions/{suggestion_id}", response_model=SuggestionSchema.SuggestionDetail)
+async def getSuggestionDetail(
+    suggestion_id: int,
+    loginUser: dict = Depends(getCurrentUser), db: Session = Depends(get_db)
+):
 
 
 # 意見削除API
