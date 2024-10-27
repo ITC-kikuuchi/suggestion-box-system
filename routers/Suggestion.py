@@ -80,9 +80,46 @@ async def createSuggestion(
 
 
 # 意見詳細取得API
-@router.get("/suggestions/{suggestion_id}")
-async def getSuggestionDetail():
-    pass
+@router.get("/suggestions/{suggestion_id}", response_model=SuggestionSchema.SuggestionDetail)
+async def getSuggestionDetail(
+    suggestion_id: int,
+    loginUser: dict = Depends(getCurrentUser), db: Session = Depends(get_db)
+):
+    try:
+        # 意見詳細取得
+        suggestion = SuggestionCrud.getSuggestionDetail(db, suggestion_id)
+        # カテゴリ一覧の作成
+        categoryList = []
+        for category in suggestion.suggestionCategory:
+            categoryList.append(
+                {
+                    "category_id": category.category.id,
+                    "category": category.category.category,
+                }
+            )
+        # コメント一覧の作成
+        commentList = []
+        for comment in suggestion.suggestionComment:
+            commentList.append(
+                {
+                    "comment_id": comment.id ,
+                    "comment": comment.comment,
+                    "created_id": comment.created_id,
+                }
+            )
+        # レスポンスの作成
+        response = SuggestionSchema.SuggestionDetail(
+            id=suggestion.id,
+            unknown=UNKNOWN,
+            title=suggestion.title,
+            created_at=suggestion.created_at.strftime(DATE_FORMAT_YMD),
+            status_id=suggestion.status_id,
+            category_list=categoryList,
+            comment_list=commentList,
+        )
+    except Exception as e:
+        return exception_handler(e)
+    return response
 
 
 # 意見削除API

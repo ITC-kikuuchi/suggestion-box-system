@@ -3,6 +3,7 @@ from sqlalchemy import desc
 
 from models.Suggestion import Suggestion
 from models.SuggestionCategory import SuggestionCategory
+from models.SuggestionComment import SuggestionComment
 
 
 # 意見一覧取得
@@ -26,3 +27,11 @@ def createSuggestion(db: Session, suggestion):
     db.commit()
     db.refresh(newSuggestion)
     return newSuggestion.id
+
+
+# 意見詳細取得
+def getSuggestionDetail(db: Session, suggestion_id):
+    return db.query(Suggestion).filter(Suggestion.id == suggestion_id).options(
+        joinedload(Suggestion.suggestionCategory).joinedload(SuggestionCategory.category),
+        joinedload(Suggestion.suggestionComment)
+    ).first()
