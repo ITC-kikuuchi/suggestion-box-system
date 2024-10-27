@@ -86,7 +86,7 @@ async def getSuggestionDetail(
     loginUser: dict = Depends(getCurrentUser), db: Session = Depends(get_db)
 ):
     try:
-        # 意見一覧取得
+        # 意見詳細取得
         suggestion = SuggestionCrud.getSuggestionDetail(db, suggestion_id)
         # カテゴリ一覧の作成
         categoryList = []
