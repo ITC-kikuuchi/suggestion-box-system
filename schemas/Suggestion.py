@@ -22,6 +22,7 @@ class SuggestionList(BaseModel):
     class Config:
         orm_mode = True
 
+
 class createSuggestion(BaseModel):
     title: Optional[str]
     contents: Optional[str]
@@ -32,6 +33,7 @@ class Comment(BaseModel):
     comment_id: int
     comment: str
     created_id: Optional[int]
+
 
 class SuggestionDetail(BaseModel):
     id: int
