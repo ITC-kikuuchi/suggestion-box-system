@@ -31,7 +31,14 @@ def createSuggestion(db: Session, suggestion):
 
 # 意見詳細取得
 def getSuggestionDetail(db: Session, suggestion_id):
-    return db.query(Suggestion).filter(Suggestion.id == suggestion_id).options(
-        joinedload(Suggestion.suggestionCategory).joinedload(SuggestionCategory.category),
-        joinedload(Suggestion.suggestionComment)
-    ).first()
+    return (
+        db.query(Suggestion)
+        .filter(Suggestion.id == suggestion_id)
+        .options(
+            joinedload(Suggestion.suggestionCategory).joinedload(
+                SuggestionCategory.category
+            ),
+            joinedload(Suggestion.suggestionComment),
+        )
+        .first()
+    )
