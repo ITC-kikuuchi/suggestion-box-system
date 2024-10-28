@@ -80,10 +80,13 @@ async def createSuggestion(
 
 
 # 意見詳細取得API
-@router.get("/suggestions/{suggestion_id}", response_model=SuggestionSchema.SuggestionDetail)
+@router.get(
+    "/suggestions/{suggestion_id}", response_model=SuggestionSchema.SuggestionDetail
+)
 async def getSuggestionDetail(
     suggestion_id: int,
-    loginUser: dict = Depends(getCurrentUser), db: Session = Depends(get_db)
+    loginUser: dict = Depends(getCurrentUser),
+    db: Session = Depends(get_db),
 ):
     try:
         # 意見詳細取得
@@ -102,7 +105,7 @@ async def getSuggestionDetail(
         for comment in suggestion.suggestionComment:
             commentList.append(
                 {
-                    "comment_id": comment.id ,
+                    "comment_id": comment.id,
                     "comment": comment.comment,
                     "created_id": comment.created_id,
                 }
