@@ -42,3 +42,11 @@ def getSuggestionDetail(db: Session, suggestion_id):
         )
         .first()
     )
+
+
+# 意見削除
+def deleteSuggestion(db: Session, suggestionId):
+    db.query(SuggestionComment).filter(SuggestionComment.suggestion_id == suggestionId).delete(synchronize_session=False)
+    db.query(SuggestionCategory).filter(SuggestionCategory.suggestion_id == suggestionId).delete(synchronize_session=False)
+    db.query(Suggestion).filter(Suggestion.id == suggestionId).delete(synchronize_session=False)
+    db.commit()
