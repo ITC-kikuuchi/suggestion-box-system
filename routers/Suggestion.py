@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
+from Exceptions.NotFoundException import NotFoundException
 
 
 from utils.ExceptionHandler import exception_handler
@@ -127,8 +128,22 @@ async def getSuggestionDetail(
 
 # 意見削除API
 @router.delete("/suggestions/{suggestion_id}")
-async def deleteSuggestion():
-    pass
+async def deleteSuggestion(
+    suggestion_id: int,
+    loginUser: dict = Depends(getCurrentUser),
+    db: Session = Depends(get_db),
+):
+    try:
+        # ID に紐づく意見の取得
+        suggestion = SuggestionCrud.getSuggestionDetail(db, suggestion_id)
+        # データ存在チェック
+        if not suggestion:
+            # id に紐づくデータが存在しなかった場合
+            raise NotFoundException
+        # id に紐づくデータの削除
+        SuggestionCrud.deleteSuggestion(db, suggestion_id)
+    except Exception as e:
+        return exception_handler(e)
 
 
 # 意見解決API
