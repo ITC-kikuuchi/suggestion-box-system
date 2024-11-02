@@ -60,6 +60,7 @@ async def createSuggestion(
     loginUser: dict = Depends(getCurrentUser),
     db: Session = Depends(get_db),
 ):
+    response = []
     try:
         suggestion = {
             "title": item.title,
@@ -78,6 +79,7 @@ async def createSuggestion(
 
     except Exception as e:
         return exception_handler(e)
+    return response
 
 
 # 意見詳細取得API
@@ -133,6 +135,7 @@ async def deleteSuggestion(
     loginUser: dict = Depends(getCurrentUser),
     db: Session = Depends(get_db),
 ):
+    response = []
     try:
         # ID に紐づく意見の取得
         suggestion = SuggestionCrud.getSuggestionDetail(db, suggestion_id)
@@ -144,6 +147,7 @@ async def deleteSuggestion(
         SuggestionCrud.deleteSuggestion(db, suggestion_id)
     except Exception as e:
         return exception_handler(e)
+    return response
 
 
 # 意見解決API
