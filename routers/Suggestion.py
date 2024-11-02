@@ -60,6 +60,7 @@ async def createSuggestion(
     loginUser: dict = Depends(getCurrentUser),
     db: Session = Depends(get_db),
 ):
+    response = []
     try:
         suggestion = {
             "title": item.title,
@@ -78,6 +79,7 @@ async def createSuggestion(
 
     except Exception as e:
         return exception_handler(e)
+    return response
 
 
 # 意見詳細取得API
