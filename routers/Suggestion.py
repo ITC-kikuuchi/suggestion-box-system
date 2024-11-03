@@ -94,6 +94,10 @@ async def getSuggestionDetail(
     try:
         # 意見詳細取得
         suggestion = SuggestionCrud.getSuggestionDetail(db, suggestion_id)
+        # データ存在チェック
+        if not suggestion:
+            # id に紐づくデータが存在しなかった場合
+            raise NotFoundException
         # カテゴリ一覧の作成
         categoryList = []
         for category in suggestion.suggestionCategory:
