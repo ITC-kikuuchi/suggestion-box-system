@@ -9,3 +9,6 @@ DATE_FORMAT_YMD = "%Y年%m月%d日"
 
 # 投稿意見初期ステータス
 STATUS_UNRESOLVED = 1
+
+# 解決済みステータス
+STATUS_RESOLVED = 2
