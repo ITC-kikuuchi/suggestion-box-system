@@ -7,7 +7,7 @@ from Exceptions.NotFoundException import NotFoundException
 from utils.ExceptionHandler import exception_handler
 from utils.CheckToken import getCurrentUser
 
-from constants import UNKNOWN, DATE_FORMAT_YMD, STATUS_UNRESOLVED, UNKNOWN_CREATED_ID
+from constants import UNKNOWN, DATE_FORMAT_YMD, STATUS_UNRESOLVED, UNKNOWN_CREATED_ID, STATUS_RESOLVED
 
 
 import schemas.Suggestion as SuggestionSchema
