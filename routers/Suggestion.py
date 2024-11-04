@@ -156,5 +156,29 @@ async def deleteSuggestion(
 
 # 意見解決API
 @router.put("/suggestions/resolved/{suggestion_id}")
-async def resolveSuggestion():
-    pass
+async def resolveSuggestion(
+    suggestion_id: int,
+    loginUser: dict = Depends(getCurrentUser),
+    db: Session = Depends(get_db),
+):
+    response = []
+    try:
+        # ID に紐づく意見の取得
+        suggestion = SuggestionCrud.getSuggestionDetail(db, suggestion_id)
+        # データ存在チェック
+        if not suggestion:
+            # id に紐づくデータが存在しなかった場合
+            raise NotFoundException
+        
+        # ステータスチェック
+        if suggestion.status_id == STATUS_UNRESOLVED:
+            # 未解決なら解決に
+            status_id = STATUS_RESOLVED
+        else:
+            # 解決済みなら未解決に
+            status_id = STATUS_UNRESOLVED
+        # id に紐づくデータの削除
+        SuggestionCrud.resolvedSuggestion(db, suggestion_id, status_id)
+    except Exception as e:
+        return exception_handler(e)
+    return response
