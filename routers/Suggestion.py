@@ -109,15 +109,14 @@ async def getSuggestionDetail(
             for category in suggestion.suggestionCategory
         ]
         # コメント一覧の作成
-        commentList = []
-        for comment in suggestion.suggestionComment:
-            commentList.append(
-                {
-                    "comment_id": comment.id,
-                    "comment": comment.comment,
-                    "created_id": comment.created_id,
-                }
-            )
+        commentList = [
+            {
+                "comment_id": comment.id,
+                "comment": comment.comment,
+                "created_id": comment.created_id,
+            }
+            for comment in suggestion.suggestionComment
+        ]
         # レスポンスの作成
         response = SuggestionSchema.SuggestionDetail(
             id=suggestion.id,
