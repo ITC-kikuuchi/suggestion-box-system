@@ -22,6 +22,7 @@ router = APIRouter()
 async def getSuggestions(
     loginUser: dict = Depends(getCurrentUser), db: Session = Depends(get_db)
 ):
+    response = []
     formattedSuggestions = []
     try:
         # 意見一覧取得
@@ -91,6 +92,7 @@ async def getSuggestionDetail(
     loginUser: dict = Depends(getCurrentUser),
     db: Session = Depends(get_db),
 ):
+    response = []
     try:
         # 意見詳細取得
         suggestion = SuggestionCrud.getSuggestionDetail(db, suggestion_id)
