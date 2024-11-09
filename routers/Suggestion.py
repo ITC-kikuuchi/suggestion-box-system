@@ -2,13 +2,15 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
 from Exceptions.NotFoundException import NotFoundException
-
-
 from utils.ExceptionHandler import exception_handler
 from utils.CheckToken import getCurrentUser
-
-from constants import UNKNOWN, DATE_FORMAT_YMD, STATUS_UNRESOLVED, UNKNOWN_CREATED_ID, STATUS_RESOLVED
-
+from constants import (
+    UNKNOWN,
+    DATE_FORMAT_YMD,
+    STATUS_UNRESOLVED,
+    UNKNOWN_CREATED_ID,
+    STATUS_RESOLVED,
+)
 
 import schemas.Suggestion as SuggestionSchema
 import cruds.Suggestion as SuggestionCrud
@@ -22,6 +24,7 @@ router = APIRouter()
 async def getSuggestions(
     loginUser: dict = Depends(getCurrentUser), db: Session = Depends(get_db)
 ):
+    response = []
     formattedSuggestions = []
     try:
         # 意見一覧取得
@@ -91,6 +94,7 @@ async def getSuggestionDetail(
     loginUser: dict = Depends(getCurrentUser),
     db: Session = Depends(get_db),
 ):
+    response = []
     try:
         # 意見詳細取得
         suggestion = SuggestionCrud.getSuggestionDetail(db, suggestion_id)
@@ -99,24 +103,22 @@ async def getSuggestionDetail(
             # id に紐づくデータが存在しなかった場合
             raise NotFoundException
         # カテゴリ一覧の作成
-        categoryList = []
-        for category in suggestion.suggestionCategory:
-            categoryList.append(
-                {
-                    "category_id": category.category.id,
-                    "category": category.category.category,
-                }
-            )
+        categoryList = [
+            {
+                "category_id": category.category.id,
+                "category": category.category.category,
+            }
+            for category in suggestion.suggestionCategory
+        ]
         # コメント一覧の作成
-        commentList = []
-        for comment in suggestion.suggestionComment:
-            commentList.append(
-                {
-                    "comment_id": comment.id,
-                    "comment": comment.comment,
-                    "created_id": comment.created_id,
-                }
-            )
+        commentList = [
+            {
+                "comment_id": comment.id,
+                "comment": comment.comment,
+                "created_id": comment.created_id,
+            }
+            for comment in suggestion.suggestionComment
+        ]
         # レスポンスの作成
         response = SuggestionSchema.SuggestionDetail(
             id=suggestion.id,
@@ -169,14 +171,9 @@ async def resolveSuggestion(
         if not suggestion:
             # id に紐づくデータが存在しなかった場合
             raise NotFoundException
-        
+
         # ステータスチェック
-        if suggestion.status_id == STATUS_UNRESOLVED:
-            # 未解決なら解決に
-            status_id = STATUS_RESOLVED
-        else:
-            # 解決済みなら未解決に
-            status_id = STATUS_UNRESOLVED
+        status_id = STATUS_RESOLVED if suggestion.status_id == STATUS_UNRESOLVED else STATUS_UNRESOLVED
         # id に紐づくデータの削除
         SuggestionCrud.resolvedSuggestion(db, suggestion_id, status_id)
     except Exception as e:
