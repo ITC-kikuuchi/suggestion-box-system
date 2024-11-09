@@ -46,13 +46,19 @@ def getSuggestionDetail(db: Session, suggestion_id):
 
 # 意見削除
 def deleteSuggestion(db: Session, suggestionId):
-    db.query(SuggestionComment).filter(SuggestionComment.suggestion_id == suggestionId).delete(synchronize_session=False)
-    db.query(SuggestionCategory).filter(SuggestionCategory.suggestion_id == suggestionId).delete(synchronize_session=False)
-    db.query(Suggestion).filter(Suggestion.id == suggestionId).delete(synchronize_session=False)
+    db.query(SuggestionComment).filter(
+        SuggestionComment.suggestion_id == suggestionId
+    ).delete(synchronize_session=False)
+    db.query(SuggestionCategory).filter(
+        SuggestionCategory.suggestion_id == suggestionId
+    ).delete(synchronize_session=False)
+    db.query(Suggestion).filter(Suggestion.id == suggestionId).delete(
+        synchronize_session=False
+    )
     db.commit()
 
 
-#　意見解決
+# 意見解決
 def resolvedSuggestion(db: Session, suggestion_id, status_id):
     suggestion = db.query(Suggestion).filter(Suggestion.id == suggestion_id).first()
     suggestion.status_id = status_id
