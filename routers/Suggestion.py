@@ -101,14 +101,13 @@ async def getSuggestionDetail(
             # id に紐づくデータが存在しなかった場合
             raise NotFoundException
         # カテゴリ一覧の作成
-        categoryList = []
-        for category in suggestion.suggestionCategory:
-            categoryList.append(
-                {
-                    "category_id": category.category.id,
-                    "category": category.category.category,
-                }
-            )
+        categoryList = [
+            {
+                "category_id": category.category.id,
+                "category": category.category.category,
+            }
+            for category in suggestion.suggestionCategory
+        ]
         # コメント一覧の作成
         commentList = []
         for comment in suggestion.suggestionComment:
