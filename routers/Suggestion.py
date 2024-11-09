@@ -2,13 +2,15 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
 from Exceptions.NotFoundException import NotFoundException
-
-
 from utils.ExceptionHandler import exception_handler
 from utils.CheckToken import getCurrentUser
-
-from constants import UNKNOWN, DATE_FORMAT_YMD, STATUS_UNRESOLVED, UNKNOWN_CREATED_ID, STATUS_RESOLVED
-
+from constants import (
+    UNKNOWN,
+    DATE_FORMAT_YMD,
+    STATUS_UNRESOLVED,
+    UNKNOWN_CREATED_ID,
+    STATUS_RESOLVED,
+)
 
 import schemas.Suggestion as SuggestionSchema
 import cruds.Suggestion as SuggestionCrud
@@ -169,7 +171,7 @@ async def resolveSuggestion(
         if not suggestion:
             # id に紐づくデータが存在しなかった場合
             raise NotFoundException
-        
+
         # ステータスチェック
         status_id = STATUS_RESOLVED if suggestion.status_id == STATUS_UNRESOLVED else STATUS_UNRESOLVED
         # id に紐づくデータの削除
