@@ -20,7 +20,7 @@ async def global_exception_handler(request: Request, exc: Exception):
     return exception_handler(exc)
 
 
-from routers import Auth, Suggestion, Category, Status, Comment
+from routers import Auth, Suggestion, Category, Status, SuggestionComment
 
 app.add_middleware(
     CORSMiddleware,
@@ -34,4 +34,4 @@ app.include_router(Auth.router)
 app.include_router(Suggestion.router)
 app.include_router(Category.router)
 app.include_router(Status.router)
-app.include_router(Comment.router)
+app.include_router(SuggestionComment.router)
