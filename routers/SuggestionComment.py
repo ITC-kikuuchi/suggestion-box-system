@@ -28,7 +28,7 @@ async def createComment(
         if not suggestion:
             # id に紐づくデータが存在しなかった場合
             raise NotFoundException
-
+        # 登録情報の作成
         comment = {
             "suggestion_id": item.suggestion_id,
             "comment": item.comment,
@@ -43,8 +43,28 @@ async def createComment(
 
 # コメント更新API
 @router.put("/comments/{comment_id}")
-async def updateComment():
-    pass
+async def updateComment(
+    comment_id: int,
+    item: SuggestionCommentSchema.UpdateComment,
+    loginUser: dict = Depends(getCurrentUser),
+    db: Session = Depends(get_db),
+):
+    response = []
+    try:
+        # コメント詳細取得
+        comment = SuggestionCommentCrud.getCommentDetail(db, comment_id)
+        if not comment:
+            # id に紐づくデータが存在しなかった場合
+            raise NotFoundException
+        # 更新情報の作成
+        updateComment = {
+            "comment": item.comment,
+        }
+        # コメント更新
+        SuggestionCommentCrud.updateComment(db, updateComment, comment)
+    except Exception as e:
+        return exception_handler(e)
+    return response
 
 
 # コメント削除API
