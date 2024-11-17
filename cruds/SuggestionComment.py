@@ -16,3 +16,10 @@ def getCommentDetail(db: Session, comment_id):
         .filter(SuggestionComment.id == comment_id)
         .first()
     )
+
+# コメント更新
+def updateComment(db: Session, comment, original: SuggestionComment):
+    for field, value in comment.items():
+        setattr(original, field, value)
+    db.commit()
+    db.refresh(original)
