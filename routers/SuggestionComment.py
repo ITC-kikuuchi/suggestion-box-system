@@ -28,7 +28,7 @@ async def createComment(
         if not suggestion:
             # id に紐づくデータが存在しなかった場合
             raise NotFoundException
-
+        # 登録情報の作成
         comment = {
             "suggestion_id": item.suggestion_id,
             "comment": item.comment,
@@ -56,7 +56,7 @@ async def updateComment(
         if not comment:
             # id に紐づくデータが存在しなかった場合
             raise NotFoundException
-
+        # 更新情報の作成
         updateComment = {
             "comment": item.comment,
         }
