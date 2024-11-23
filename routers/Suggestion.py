@@ -72,6 +72,8 @@ async def createSuggestion(
             "contents": item.contents,
             "status_id": STATUS_UNRESOLVED,
             "created_id": UNKNOWN_CREATED_ID,
+            "created_at": datetime.now(ZoneInfo("Asia/Tokyo")),
+            "updated_at": datetime.now(ZoneInfo("Asia/Tokyo"))
         }
         suggestionId = SuggestionCrud.createSuggestion(db, suggestion)
 
