@@ -13,6 +13,7 @@ import schemas.SuggestionComment as SuggestionCommentSchema
 import cruds.Suggestion as SuggestionCrud
 import cruds.SuggestionComment as SuggestionCommentCrud
 
+
 # コメント登録API
 @router.post("/comments")
 async def createComment(
