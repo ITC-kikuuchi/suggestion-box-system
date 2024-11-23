@@ -13,6 +13,7 @@ import schemas.SuggestionComment as SuggestionCommentSchema
 import cruds.Suggestion as SuggestionCrud
 import cruds.SuggestionComment as SuggestionCommentCrud
 
+
 # コメント登録API
 @router.post("/comments")
 async def createComment(
@@ -69,5 +70,20 @@ async def updateComment(
 
 # コメント削除API
 @router.delete("/comments/{comment_id}")
-async def deleteComment():
-    pass
+async def deleteComment(
+    comment_id: int,
+    loginUser: dict = Depends(getCurrentUser),
+    db: Session = Depends(get_db),
+):
+    response = []
+    try:
+        # コメント詳細取得
+        comment = SuggestionCommentCrud.getCommentDetail(db, comment_id)
+        if not comment:
+            # id に紐づくデータが存在しなかった場合
+            raise NotFoundException
+        # id に紐づくデータの削除
+        SuggestionCommentCrud.deleteComment(db, comment_id)
+    except Exception as e:
+        return exception_handler(e)
+    return response
