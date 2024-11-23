@@ -23,3 +23,8 @@ def updateComment(db: Session, comment, original: SuggestionComment):
         setattr(original, field, value)
     db.commit()
     db.refresh(original)
+
+# コメント削除
+def deleteComment(db: Session, commentId):
+    db.query(SuggestionComment).filter(SuggestionComment.id == commentId).delete()
+    db.commit()
