@@ -33,6 +33,7 @@ class Comment(BaseModel):
     comment_id: int
     comment: str
     created_id: Optional[int]
+    created_at: Optional[str]
 
 
 class SuggestionDetail(BaseModel):
