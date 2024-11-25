@@ -121,6 +121,7 @@ async def getSuggestionDetail(
                 "comment_id": comment.id,
                 "comment": comment.comment,
                 "created_id": comment.created_id,
+                "created_at": comment.created_at.strftime(DATE_FORMAT_YMD_HM)
             }
             for comment in suggestion.suggestionComment
         ]
