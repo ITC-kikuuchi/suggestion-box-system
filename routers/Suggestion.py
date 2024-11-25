@@ -9,6 +9,7 @@ from utils.CheckToken import getCurrentUser
 from constants import (
     UNKNOWN,
     DATE_FORMAT_YMD,
+    DATE_FORMAT_YMD_HM,
     STATUS_UNRESOLVED,
     UNKNOWN_CREATED_ID,
     STATUS_RESOLVED,
@@ -120,6 +121,7 @@ async def getSuggestionDetail(
                 "comment_id": comment.id,
                 "comment": comment.comment,
                 "created_id": comment.created_id,
+                "created_at": comment.created_at.strftime(DATE_FORMAT_YMD_HM)
             }
             for comment in suggestion.suggestionComment
         ]
