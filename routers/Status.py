@@ -18,6 +18,7 @@ router = APIRouter()
 async def getStatuses(
     loginUser: dict = Depends(getCurrentUser), db: Session = Depends(get_db)
 ):
+    response = []
     formattedStatuses = []
     try:
         # ステータス一覧取得

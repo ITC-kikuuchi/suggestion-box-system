@@ -18,6 +18,7 @@ router = APIRouter()
 async def getCategories(
     loginUser: dict = Depends(getCurrentUser), db: Session = Depends(get_db)
 ):
+    response = []
     formattedCategories = []
     try:
         # カテゴリー一覧取得
