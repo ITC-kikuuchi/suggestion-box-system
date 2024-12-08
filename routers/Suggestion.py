@@ -74,7 +74,7 @@ async def createSuggestion(
             "status_id": STATUS_UNRESOLVED,
             "created_id": UNKNOWN_CREATED_ID,
             "created_at": datetime.now(ZoneInfo("Asia/Tokyo")),
-            "updated_at": datetime.now(ZoneInfo("Asia/Tokyo"))
+            "updated_at": datetime.now(ZoneInfo("Asia/Tokyo")),
         }
         suggestionId = SuggestionCrud.createSuggestion(db, suggestion)
 
@@ -121,7 +121,7 @@ async def getSuggestionDetail(
                 "comment_id": comment.id,
                 "comment": comment.comment,
                 "created_id": comment.created_id,
-                "created_at": comment.created_at.strftime(DATE_FORMAT_YMD_HM)
+                "created_at": comment.created_at.strftime(DATE_FORMAT_YMD_HM),
             }
             for comment in suggestion.suggestionComment
         ]
@@ -179,7 +179,11 @@ async def resolveSuggestion(
             raise NotFoundException
 
         # ステータスチェック
-        status_id = STATUS_RESOLVED if suggestion.status_id == STATUS_UNRESOLVED else STATUS_UNRESOLVED
+        status_id = (
+            STATUS_RESOLVED
+            if suggestion.status_id == STATUS_UNRESOLVED
+            else STATUS_UNRESOLVED
+        )
         # id に紐づくデータの削除
         SuggestionCrud.resolvedSuggestion(db, suggestion_id, status_id)
     except Exception as e:
