@@ -30,10 +30,10 @@ def createSuggestion(db: Session, suggestion):
 
 
 # 意見詳細取得
-def getSuggestionDetail(db: Session, suggestion_id):
+def getSuggestionDetail(db: Session, suggestionId):
     return (
         db.query(Suggestion)
-        .filter(Suggestion.id == suggestion_id)
+        .filter(Suggestion.id == suggestionId)
         .options(
             joinedload(Suggestion.suggestionCategory).joinedload(
                 SuggestionCategory.category
@@ -59,7 +59,7 @@ def deleteSuggestion(db: Session, suggestionId):
 
 
 # 意見解決
-def resolvedSuggestion(db: Session, suggestion_id, status_id):
-    suggestion = db.query(Suggestion).filter(Suggestion.id == suggestion_id).first()
-    suggestion.status_id = status_id
+def resolvedSuggestion(db: Session, suggestionId, statusId):
+    suggestion = db.query(Suggestion).filter(Suggestion.id == suggestionId).first()
+    suggestion.status_id = statusId
     db.commit()

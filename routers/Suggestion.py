@@ -179,13 +179,13 @@ async def resolveSuggestion(
             raise NotFoundException
 
         # ステータスチェック
-        status_id = (
+        statusId = (
             STATUS_RESOLVED
             if suggestion.status_id == STATUS_UNRESOLVED
             else STATUS_UNRESOLVED
         )
         # id に紐づくデータの削除
-        SuggestionCrud.resolvedSuggestion(db, suggestion_id, status_id)
+        SuggestionCrud.resolvedSuggestion(db, suggestion_id, statusId)
     except Exception as e:
         return exception_handler(e)
     return response
