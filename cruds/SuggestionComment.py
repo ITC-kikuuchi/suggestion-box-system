@@ -12,9 +12,9 @@ def createComment(db: Session, comment):
 
 
 # コメント詳細取得
-def getCommentDetail(db: Session, comment_id):
+def getCommentDetail(db: Session, commentId):
     return (
-        db.query(SuggestionComment).filter(SuggestionComment.id == comment_id).first()
+        db.query(SuggestionComment).filter(SuggestionComment.id == commentId).first()
     )
 
 
